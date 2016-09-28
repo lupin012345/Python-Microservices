@@ -35,7 +35,7 @@ def status(worker, args=None, server=None):
 def list(worker, args=None, server=None):
   strlist = ""
   for service in worker.services:
-    strlist += "[%i] | %s | Alive : %s" %(service.id, service.name, service.isAlive())
+    strlist += "[%i] | %s | Alive : %s\n" %(service.id, service.name, service.isAlive())
   return strlist
 
 def start(worker, args=None, server=None):

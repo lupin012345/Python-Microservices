@@ -1,6 +1,8 @@
 from importlib import import_module
 from multiprocessing import Process
+from os import getcwd, chdir
 import run
+from sys import path
 
 class Service():
     def __init__(self, service_name, service_conf):
@@ -14,6 +16,7 @@ class Service():
         self.id = id
         
     def run(self):
+        path.insert(0, getcwd()+"/run/"+self.directory)
         import_module("run.%s.%s" %(self.directory, self.name))
         command = "run.%s.%s.%s" %(self.directory, self.name, self.main_method)
         if self.keepAlive:
