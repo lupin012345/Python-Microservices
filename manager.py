@@ -3,7 +3,8 @@
 import modules.commands as commands
 from modules.worker import Worker
 from modules.service import Service
-#
+from modules.utils import *
+#externam imports
 import logging as log
 from importlib import import_module
 import config
@@ -12,12 +13,13 @@ LOG_FILENAME = 'python_manager.log'
 worker = Worker()
 
 def __init__():
-  i = 0
   global dynamic_imports
-  log.basicConfig(filename=LOG_FILENAME,level=log.DEBUG)
+  #  log.basicConfig(filename=LOG_FILENAME,level=log.DEBUG)
+  log.basicConfig(level=log.DEBUG)
+  check_config()
   for service_name in config.run.keys():
-    worker.add(Service(service_name, config.run[service_name]['directory'], i))
-    i += 1
+    service_conf = config.run[service_name]
+    worker.add(Service(service_name, service_conf))
     
 def handle_input(command):
   command = command.strip()
@@ -33,7 +35,7 @@ def handle_input(command):
 def	main():
   __init__()
   worker.start()
-  while handle_input(input()) is True:
+  while handle_input(input("# ")) is True:
     continue
   log.info('All tasks done. Stopping')
   return 0

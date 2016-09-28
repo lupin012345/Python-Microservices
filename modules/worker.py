@@ -1,26 +1,31 @@
-from threading import Thread
+import logging as log
 
 class Worker():
     def __init__(self):
-        self.threads = []
         self.services = []
-            
-    def start(self):
-        for service in self.services:
-            t = Thread(target=service.run, args=[])
-            self.threads.append(t)
-            t.start()
+        self.lastId = 0
 
-    def add(self, service):
-        self.services.append(service)
-      
-    def kill(self, id):
-        self.threads[id].interrupt_main()
-        self.services.pop(id)
-        self.threads.pop(id)
-
-    def get_service(self, id):
+    def getService(self, id):
         for service in self.services:
             if service.id == id:
                 return service
+        log.warning("There is no service with id %i" %id)
         return None
+
+    def start(self):
+        for service in self.services:
+            log.info("Starting service %s" %service.name)
+            service.start()
+
+    def add(self, service):
+        log.info("Added service %s" %service.name)
+        self.lastId += 1
+        service.setId(self.lastId)
+        self.services.append(service)
+      
+    def kill(self, id):
+        service = self.get_service(id)
+        if service is None:
+            log.warning("There is no service with id %i" %id)
+            return
+        service.kill()
