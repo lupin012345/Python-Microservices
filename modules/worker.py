@@ -24,8 +24,8 @@ class Worker():
         self.services.append(service)
       
     def kill(self, id):
-        service = self.get_service(id)
+        service = self.getService(id)
         if service is None:
             log.warning("There is no service with id %i" %id)
             return
-        service.kill()
+        service.process.terminate()

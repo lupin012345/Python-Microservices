@@ -1,5 +1,5 @@
 from importlib import import_module
-from threading import Thread
+from multiprocessing import Process
 import run
 
 class Service():
@@ -8,7 +8,7 @@ class Service():
         self.directory = service_conf['directory']
         self.keepAlive = service_conf['restart']
         self.main_method = service_conf['main_method']
-        self.thread = Thread(target=self.run, args=[])
+        self.process = Process(target=self.run, args=[])
 
     def setId(self, id):
         self.id = id
@@ -23,14 +23,14 @@ class Service():
             eval(command)()
 
     def start(self):
-        self.thread.start()
+        self.process.start()
 
-    def restart(self, thread=None):
-        if thread is not None:
-            self.thread = thread
+    def restart(self, process=None):
+        if process is not None:
+            self.process = process
         else:
-            self.thread = Thread(target=self.run, args=[])
-        self.thread.start()
+            self.process = Process(target=self.run, args=[])
+        self.process.start()
 
     def isAlive(self):
-        return self.thread.isAlive()
+        return self.process.is_alive()

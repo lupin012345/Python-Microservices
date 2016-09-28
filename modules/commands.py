@@ -1,4 +1,4 @@
-commands = ["quit", "list", "start"]
+commands = ["quit", "list", "start", "kill"]
 
 def quit(worker, args=None):
     return 0
@@ -21,4 +21,5 @@ def start(worker, args=None):
             log.warning("Service %i is already running" %id)
         
 def kill(worker, args=None):
-    worker.kill(int(args[1]))
+    if len(args) > 1:
+        worker.kill(int(args[1]))
