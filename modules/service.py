@@ -25,6 +25,9 @@ class Service():
     def start(self):
         self.process.start()
 
+    def stop(self):
+        self.process.terminate()
+
     def restart(self, process=None):
         if process is not None:
             self.process = process

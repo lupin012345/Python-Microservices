@@ -28,4 +28,4 @@ class Worker():
         if service is None:
             log.warning("There is no service with id %i" %id)
             return
-        service.process.terminate()
+        service.stop()

@@ -1,4 +1,8 @@
 run={
-    "hello_world":{"directory":"hello_world", "restart":False, "main_method":"main"},
-    "tester":{"directory":"proxy_tester", "restart":False, "main_method":"main"}
+    "hello_world":{"directory":"hello_world", "restart":False, "main_method":"main"}
+}
+
+daemon={
+    "port": 8889,
+    "host": "127.0.0.1"
 }
