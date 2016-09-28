@@ -1,3 +1,3 @@
 run={
-    "hello_world":{}
+    "hello_world":{"directory":"hello_world", "restart":True}
 }

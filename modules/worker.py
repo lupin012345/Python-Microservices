@@ -1,5 +1,4 @@
 from threading import Thread
-import services
 
 class Worker():
     def __init__(self):

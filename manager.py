@@ -6,22 +6,17 @@ from modules.service import Service
 #
 import logging as log
 from importlib import import_module
-import services
 import config
 
-
 LOG_FILENAME = 'python_manager.log'
-dynamic_imports = []
 worker = Worker()
 
 def __init__():
   i = 0
   global dynamic_imports
   log.basicConfig(filename=LOG_FILENAME,level=log.DEBUG)
-  for service in config.run.keys():
-    dynamic_imports.append(import_module('services.%s' %service))
   for service_name in config.run.keys():
-    worker.add(Service(service_name, i))
+    worker.add(Service(service_name, config.run[service_name]['directory'], i))
     i += 1
     
 def handle_input(command):
