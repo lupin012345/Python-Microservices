@@ -7,6 +7,7 @@ class Service():
         self.name = service_name
         self.directory = service_conf['directory']
         self.keepAlive = service_conf['restart']
+        self.main_method = service_conf['main_method']
         self.thread = Thread(target=self.run, args=[])
 
     def setId(self, id):
@@ -14,7 +15,7 @@ class Service():
         
     def run(self):
         import_module("run.%s.%s" %(self.directory, self.name))
-        command = "run.%s.%s.main" %(self.directory, self.name)
+        command = "run.%s.%s.%s" %(self.directory, self.name, self.main_method)
         if self.keepAlive:
             while self.keepAlive:
                 eval(command)()
