@@ -1,8 +1,7 @@
 #!/bin/python
+
 #local imports
 from modules.worker import Worker
-from modules.service import Service
-from modules.utils import *
 from modules.server import Server
 from modules.commands import quit
 #externam imports
@@ -19,10 +18,7 @@ def __init__():
   global server
   #  log.basicConfig(filename=LOG_FILENAME,level=log.DEBUG)
   log.basicConfig(level=log.DEBUG)
-  check_config()
-  for service_name in config.run.keys():
-    service_conf = config.run[service_name]
-    worker.add(Service(service_name, service_conf))
+  worker.init()
   server = Server(config.daemon, worker)
     
 def	main():

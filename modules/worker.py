@@ -1,4 +1,8 @@
+from modules.utils import check_config
+from modules.service import Service
+from importlib import reload
 import logging as log
+import config
 
 class Worker():
     def __init__(self):
@@ -17,6 +21,24 @@ class Worker():
             log.info("Starting service %s" %service.name)
             service.start()
 
+    def init(self):
+        self.__init__()
+        check_config()
+        for service_name in config.run.keys():
+            service_conf = config.run[service_name]
+            self.add(Service(service_name, service_conf))
+        return
+
+    def stop(self):
+        for service in self.services:
+            self.kill(service.id)
+    
+    def restart(self):
+        self.stop()
+        reload(config)
+        self.init()
+        self.start()
+            
     def add(self, service):
         log.info("Added service %s" %service.name)
         self.lastId += 1
