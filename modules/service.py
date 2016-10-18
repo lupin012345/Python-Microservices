@@ -22,6 +22,9 @@ class Service():
             self.repository = service_conf['repository']
         self.process = Process(target=self.run, args=[])
         self.server = server
+        self.flask = None
+        if "flask" in service_conf.keys():
+            self.flask = service_conf['flask']
     
     def setId(self, id):
         self.id = id
@@ -44,9 +47,15 @@ class Service():
         command = "%s.%s.%s.%s" %(self.services_directory, self.directory, self.name, self.main_method)
         if self.keepAlive:
             while self.keepAlive:
-                eval(command)()
+                if self.flask is None:
+                    eval(command)()
+                else:
+                    eval(command)(host=self.flask['host'], port=self.flask['port'])
         else:
-            eval(command)()
+            if self.flask is None:
+                eval(command)()
+            else:
+                eval(command)(host=self.flask['host'], port=self.flask['port'])
 
     def start(self):
         self.process.start()
