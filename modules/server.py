@@ -13,10 +13,12 @@ class Server():
         self.BUFFER_SIZE = 1024
         self.worker = worker
         self.hello = "### Python Manager\nHello !\n#> "
-
+        self.socket = None
+        
     def start(self):
         print("Server starting")
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         self.socket.bind((self.host, self.port))
         self.socket.listen(5)
         self.inputs.append(self.socket)
@@ -46,4 +48,17 @@ class Server():
                     
     def stop(self):    
         print("Exiting...")
-        self.socket.close()
+        if self.socket is not None:
+            try:
+                self.socket.shutdown(socket.SHUT_RDWR)
+            except OSError as e:
+                pass
+            self.socket.close()
+
+    def restart(self):
+        print("Restarting...")
+        if self.socket is not None:
+            self.socket.shutdown(socket.SHUT_RDWR)
+            self.socket.close()
+        self.__init__(self.config, self.worker)
+        self.stop()

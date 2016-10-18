@@ -1,4 +1,4 @@
-from modules.utils import check_config
+from modules.utils import check_config, git_clone
 from modules.service import Service
 from importlib import reload
 import logging as log
@@ -21,12 +21,13 @@ class Worker():
             log.info("Starting service %s" %service.name)
             service.start()
 
-    def init(self):
+    def init(self, server):
         self.__init__()
+        self.server = server
         check_config()
         for service_name in config.run.keys():
             service_conf = config.run[service_name]
-            self.add(Service(service_name, service_conf))
+            self.add(Service(service_name, service_conf, self.server))
         return
 
     def stop(self):

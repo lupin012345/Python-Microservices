@@ -1,4 +1,4 @@
-available_commands = ["quit", "list", "start", "kill", "status", "restart"]
+available_commands = ["quit", "list", "start", "kill", "status", "restart", "clear"]
 
 def handle_input(command, worker, server=None):
   command = command.strip()
@@ -13,6 +13,9 @@ def handle_input(command, worker, server=None):
 def restart(worker, args=None, server=None):
   worker.restart()
   return "Worker restarted"
+
+def clear(worker, args=None, server=None):
+  return "\033[H\033[2J"
   
 def quit(worker, args=None, server=None):
   print("Quitting server")

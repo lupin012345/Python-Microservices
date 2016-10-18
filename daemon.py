@@ -18,8 +18,8 @@ def __init__():
   global server
   #  log.basicConfig(filename=LOG_FILENAME,level=log.DEBUG)
   log.basicConfig(level=log.DEBUG)
-  worker.init()
   server = Server(config.daemon, worker)
+  worker.init(server)
     
 def	main():
   __init__()

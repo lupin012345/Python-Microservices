@@ -1,7 +1,8 @@
 import config
 import logging as log
 from sys import exit
-
+from git import Repo
+    
 def check_config():
     mandatory_in_services = ["restart", "directory", "main_method"]
     mandatory_in_daemon = ["host", "port"]
@@ -19,3 +20,7 @@ def check_config():
     except AttributeError as e:
         log.error("Your config.py hasn't a correct format : [%s]" %str(e))
         exit(-1)
+
+def git_clone(url, name):
+    Repo.clone_from(url, config.daemon['services_directory'] + "/" + name)
+
