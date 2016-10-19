@@ -1,4 +1,6 @@
 from modules.commands import handle_input
+from socket import error as SocketError
+import errno
 import socket
 import select
 
@@ -33,19 +35,24 @@ class Server():
                     self.inputs.append(client)
                     client.send(self.hello.encode())
                 else:
-                    data = sock.recv(self.BUFFER_SIZE)
-                    if data:
-                        command = data.decode("UTF-8")
-                        success, output = handle_input(command, self.worker, self)
-                        sock.send(output.encode()+b"\n#> ")
-                    else:
-                        if sock in self.outputs:
-                            self.outputs.remove(sock)
-                        if sock in self.inputs:
-                            self.inputs.remove(sock)
-                    if sock not in self.outputs:
-                        self.outputs.append(sock)
-                    
+                    try:
+                        data = sock.recv(self.BUFFER_SIZE)
+                        if data:
+                            command = data.decode("UTF-8")
+                            success, output = handle_input(command, self.worker, self)
+                            sock.send(output.encode()+b"\n#> ")
+                        else:
+                            if sock in self.outputs:
+                                self.outputs.remove(sock)
+                            if sock in self.inputs:
+                                self.inputs.remove(sock)
+                            if sock not in self.outputs:
+                                self.outputs.append(sock)                    
+                    except SocketError as e:
+                        if e.errno != errno.ECONNRESET:
+                            raise
+                        self.inputs.remove(sock)
+
     def stop(self):    
         print("Exiting...")
         if self.socket is not None:
