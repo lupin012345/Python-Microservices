@@ -1,4 +1,5 @@
-available_commands = ["quit", "list", "start", "kill", "status", "restart", "clear"]
+import logging as log
+available_commands = ["quit", "list", "start", "kill", "status", "restart", "clear", "keepalive"]
 
 def handle_input(command, worker, server=None):
   command = command.strip()
@@ -10,6 +11,16 @@ def handle_input(command, worker, server=None):
     output = eval("%s" %command[0])(worker, command, server)
     return True, output
 
+def keepalive(worker, args=None, server=None):
+  if len(args) < 3:
+    return "You must specify a value. Example : keepalive 1 true"
+  id = int(args[1])
+  service = worker.getService(id)
+  if service is None:
+    return "There isn't such service"
+  service.keepAlive = bool(args[2])
+  return args[2]
+  
 def restart(worker, args=None, server=None):
   worker.restart()
   return "Worker restarted"
@@ -42,7 +53,7 @@ def status(worker, args=None, server=None):
 def list(worker, args=None, server=None):
   strlist = ""
   for service in worker.services:
-    strlist += "[%i] | %s | Alive : %s\n" %(service.id, service.name, service.isAlive())
+    strlist += "[%i] | %s | Alive : %s | keepAlive : %s\n" %(service.id, service.name, service.isAlive(), service.keepAlive)
   return strlist
 
 def start(worker, args=None, server=None):
@@ -52,7 +63,7 @@ def start(worker, args=None, server=None):
         if service is None:
           return "There isn't such service"
         if not service.isAlive():
-            service.restart()
+            service.start()
             return "service started"
         else:
             log.warning("Service %i is already running" %id)

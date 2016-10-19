@@ -58,6 +58,7 @@ class Service():
                 eval(command)(host=self.flask['host'], port=self.flask['port'])
 
     def start(self):
+        self.process = Process(target=self.run, args=[])
         self.process.start()
 
     def stop(self):

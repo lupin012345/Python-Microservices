@@ -37,7 +37,7 @@ class Worker():
     def restart(self):
         self.stop()
         reload(config)
-        self.init()
+        self.init(self.server)
         self.start()
             
     def add(self, service):
