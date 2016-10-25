@@ -3,6 +3,7 @@ from socket import error as SocketError
 import errno
 import socket
 import select
+import config
 
 class Server():
     def __init__(self, config, worker):
@@ -12,9 +13,10 @@ class Server():
         self.host = config['host']
         self.inputs = []
         self.outputs = []
+        self.authorized = []
         self.BUFFER_SIZE = 1024
         self.worker = worker
-        self.hello = "### Python Manager\nHello !\n#> "
+        self.hello = "### Python Manager\nHello !\n(password)\n#>"
         self.socket = None
         
     def start(self):
@@ -35,11 +37,19 @@ class Server():
                     self.inputs.append(client)
                     client.send(self.hello.encode())
                 else:
-                    try:
+                    try:    
                         data = sock.recv(self.BUFFER_SIZE)
                         if data:
-                            command = data.decode("UTF-8")
-                            success, output = handle_input(command, self.worker, self)
+                            if sock not in self.authorized:
+                                pwd = data.decode("UTF-8").strip()
+                                if pwd != config.daemon['password']:
+                                    output = "Invalid password.\n(password)"
+                                else:
+                                    self.authorized.append(sock)
+                                    output = "OK"
+                            else:
+                                command = data.decode("UTF-8")
+                                success, output = handle_input(command, self.worker, self)
                             sock.send(output.encode()+b"\n#> ")
                         else:
                             if sock in self.outputs:
