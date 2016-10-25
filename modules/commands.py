@@ -13,9 +13,10 @@ def handle_input(command, worker, server=None):
     return True, output
 
 def log(worker, args=None, server=None):
-  with open(config.log_file) as f:
-    return f.read()
-  return "Unable to find logfile %s" %config.log_file
+  if "log_file" in config.daemon.keys():
+    with open(config.daemon['log_file']) as f:
+      return f.read()
+  return "Unable to find logfile"
   
 def keepalive(worker, args=None, server=None):
   if len(args) < 3:
