@@ -1,0 +1,12 @@
+[Unit]
+Description=Python subservices manager
+Documentation=
+
+[Service]
+ExecStart=/usr/bin/pythonms > /var/log/pythonms.log
+Restart=on-failure
+SuccessExitStatus=3 4
+RestartForceExitStatus=3 4
+
+[Install]
+WantedBy=default.target
