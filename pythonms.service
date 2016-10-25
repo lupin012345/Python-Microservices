@@ -3,7 +3,7 @@ Description=Python subservices manager
 Documentation=
 
 [Service]
-ExecStart=/usr/bin/pythonms > /var/log/pythonms.log
+ExecStart=/bin/sh -c '/usr/bin/pythonms > /var/log/pythonms.log 2>&1'
 Restart=on-failure
 SuccessExitStatus=3 4
 RestartForceExitStatus=3 4
