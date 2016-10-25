@@ -1,5 +1,6 @@
 import logging as log
-available_commands = ["quit", "list", "start", "kill", "status", "restart", "clear", "keepalive"]
+import config
+available_commands = ["quit", "list", "start", "kill", "status", "restart", "clear", "keepalive", "log"]
 
 def handle_input(command, worker, server=None):
   command = command.strip()
@@ -11,6 +12,11 @@ def handle_input(command, worker, server=None):
     output = eval("%s" %command[0])(worker, command, server)
     return True, output
 
+def log(worker, args=None, server=None):
+  with open(config.log_file) as f:
+    return f.read()
+  return "Unable to find logfile %s" %config.log_file
+  
 def keepalive(worker, args=None, server=None):
   if len(args) < 3:
     return "You must specify a value. Example : keepalive 1 true"
