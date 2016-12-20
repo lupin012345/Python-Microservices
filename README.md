@@ -71,3 +71,4 @@ You can now use the following commands in the prompt :
 - clear : Clear the screen
 - keepalive {id} {True|False} : Choose if a service should be automatically restarted or not
 - log : Print the contents of the logfile
+- reclone : Delete the directory of a service and clone it again

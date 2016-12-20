@@ -23,4 +23,3 @@ def check_config():
 
 def git_clone(url, name):
     Repo.clone_from(url, config.daemon['services_directory'] + "/" + name)
-

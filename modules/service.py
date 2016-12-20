@@ -5,6 +5,7 @@ from modules.utils import git_clone
 from sys import path
 from time import sleep
 import run
+import shutil
 import sys
 import os
 import logging as log
@@ -61,6 +62,9 @@ class Service():
         self.process = Process(target=self.run, args=[])
         self.process.start()
 
+    def delete(self):
+        shutil.rmtree('%s/%s' %(self.services_directory, self.directory))
+        
     def stop(self):
         self.process.terminate()
 

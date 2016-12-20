@@ -45,7 +45,14 @@ class Worker():
         self.lastId += 1
         service.setId(self.lastId)
         self.services.append(service)
-      
+
+    def delete(self, id):
+        service = self.getService(id)
+        if service is None:
+            log.warning("There is no service with id %i" %id)
+            return
+        service.delete()        
+        
     def kill(self, id):
         service = self.getService(id)
         if service is None:

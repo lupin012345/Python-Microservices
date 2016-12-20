@@ -1,7 +1,7 @@
 
 import logging as log
 import config
-available_commands = ["quit", "list", "start", "kill", "status", "restart", "clear", "keepalive", "log"]
+available_commands = ["quit", "list", "start", "kill", "status", "restart", "clear", "keepalive", "log", "reclone"]
 
 def handle_input(command, worker, server=None):
   command = command.strip()
@@ -84,3 +84,8 @@ def kill(worker, args=None, server=None):
         return "Service killed"
     return "Cannot find service"
 
+def reclone(worker, args=None, server=None):
+  if len(args) > 1:
+    worker.delete(int(args[1]))
+    return "Service deleted"
+  return "Cannot find service"
