@@ -46,7 +46,7 @@ class Server():
                                     output = "Invalid password.\n(password)"
                                 else:
                                     self.authorized.append(sock)
-                                    output = "OK"
+                                    output = "\033[H\033[2J"
                             else:
                                 command = data.decode("UTF-8")
                                 success, output = handle_input(command, self.worker, self)
