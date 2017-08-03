@@ -9,16 +9,16 @@ Monitor their state, automatically restart them in case of failure, log, kill, s
 
 #### Step 1
     Write your Python script    
-    ![step1](https://github.com/lp1dev/Python-Microservices/blob/master/screens/step1.png?raw=true)
+![step1](https://github.com/lp1dev/Python-Microservices/blob/master/screens/step1.png?raw=true)
 #### Step 2
     Add your repository's configuration to your config.py file
-    ![step2](https://github.com/lp1dev/Python-Microservices/blob/master/screens/step2.png?raw=true)
+![step2](https://github.com/lp1dev/Python-Microservices/blob/master/screens/step2.png?raw=true)
 #### Step 3
     Once you are connected to the console you can check your script's status with the list command
-    ![step3](https://github.com/lp1dev/Python-Microservices/blob/master/screens/step3.png?raw=true)
+![step3](https://github.com/lp1dev/Python-Microservices/blob/master/screens/step3.png?raw=true)
 #### Step 4
     Display your script's log using the log command
-    ![step4](https://github.com/lp1dev/Python-Microservices/blob/master/screens/step4.png?raw=true)
+![step4](https://github.com/lp1dev/Python-Microservices/blob/master/screens/step4.png?raw=true)
 
 ## Requirements
 
