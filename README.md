@@ -1,13 +1,26 @@
 ### PythonMS-CLI
 
-Python MicroService is a Python utility to manage your Python scripts.
+Python MicroServices is a Python utility to manage your Python scripts of all kinds without the hassle of creating a service for each.
 
-You can remotely check if they are up and running, their state, automatically restart them in case of failure and log and kill, stop or restart them.
+You can remotely deploy them using git, then access the console to check if they are up and running.
+Monitor their state, automatically restart them in case of failure, log, kill, stop or restart them.
+
+### How to use this?
+
+#### Step 1
+    Write your Python script    
+#### Step 2
+    Add your repository's configuration to your config.py file
+#### Step 3
+    Once you are connected to the console you can check your script's status with the list command
+#### Step 4
+    Display your script's log using the log command
 
 ## Requirements
 
-- Python3.4
-- Pip (recommended)
+- systemd
+- Python3.4+
+- pip (recommended)
 
 ## Setup
 
@@ -25,10 +38,8 @@ Before starting to use PythonMS you must configure it. You can use the config.ex
 
 ```
 run={
-"SMTPTester" : {"directory":"SMTPTester", "restart":False, "main_method":"main", "repository":"https://github.com/lup\
-in012345/SMTPTester.git"},
-    "epitech_api_flask" : {"repository":"https://github.com/lupin012345/epitech-api-public.git", "restart": False, "main_\
-method":"app.run", "directory":"epitechApi", "flask":{"host":"0.0.0.0", "port":8081}},
+"SMTPTester" : {"directory":"SMTPTester", "restart":False, "main_method":"main", "repository":"https://github.com/lp1dev/SMTPTester.git"},
+    "epitech_api_flask" : {"repository":"https://github.com/lp1dev/epitech-api-public.git", "restart": False, "main_method":"app.run", "directory":"epitechApi", "flask":{"host":"0.0.0.0", "port":8081}},
 "myScript" : {"directory":"myscript_dir", "restart":True, "main_method":"run"}
 }
 
